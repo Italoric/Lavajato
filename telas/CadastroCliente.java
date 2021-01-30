@@ -14,23 +14,24 @@ public class CadastroCliente extends javax.swing.JFrame {
     ClienteDAO cdao = new ClienteDAO();
     Funcionario f = new Funcionario();
     FuncionarioDAO fdao = new FuncionarioDAO();
-    
-    
+
     public CadastroCliente() {
         initComponents();
         formatarNumero();
-        formatarCPF();    
+        formatarCPF();
     }
     public String D = "";
-    public void nomeUsuarioTela (Funcionario pes){
+
+    public void nomeUsuarioTela(Funcionario pes) {
         f = fdao.buscarFuncionarioUsuario(pes);
-        if ((f.getTipoUsuario().equals("Administrador"))||(f.getTipoUsuario().equals("Super"))) {
+        if ((f.getTipoUsuario().equals("Administrador")) || (f.getTipoUsuario().equals("Super"))) {
             btExluir.setEnabled(true);
             btLista.setEnabled(true);
-        }else {}
+        } else {
+        }
     }
 
-    private void formatarCPF(){
+    private void formatarCPF() {
         try {
             MaskFormatter mask = new MaskFormatter("###########");
             mask.install(txtfCPF);
@@ -38,7 +39,8 @@ public class CadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
         }
     }
-    private void formatarNumero(){
+
+    private void formatarNumero() {
         try {
             MaskFormatter mask = new MaskFormatter("(##)#####-####");
             mask.install(txtfNumero);
@@ -46,6 +48,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -60,8 +63,6 @@ public class CadastroCliente extends javax.swing.JFrame {
         btAlterar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtQtd = new javax.swing.JTextField();
-        btBuscarCPF = new javax.swing.JButton();
-        btBuscarNome = new javax.swing.JButton();
         btLista = new javax.swing.JButton();
         txtfNumero = new javax.swing.JFormattedTextField();
 
@@ -73,6 +74,12 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel2.setText("Telefone Celular:");
 
         jLabel3.setText("CPF:");
+
+        txtNome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNomeMouseClicked(evt);
+            }
+        });
 
         btCadastrar.setText("Cadastrar");
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,20 +107,6 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         txtQtd.setEnabled(false);
 
-        btBuscarCPF.setText("Buscar Pelo CPF");
-        btBuscarCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarCPFActionPerformed(evt);
-            }
-        });
-
-        btBuscarNome.setText("Buscar Pelo Nome");
-        btBuscarNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarNomeActionPerformed(evt);
-            }
-        });
-
         btLista.setText(">");
         btLista.setEnabled(false);
         btLista.addActionListener(new java.awt.event.ActionListener() {
@@ -126,13 +119,13 @@ public class CadastroCliente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(349, Short.MAX_VALUE)
+                .addComponent(btLista)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btBuscarCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btBuscarNome, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -141,31 +134,24 @@ public class CadastroCliente extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(43, 43, 43))
-                            .addComponent(txtfNumero)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btExluir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btLista)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btLista)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
@@ -186,11 +172,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                     .addComponent(btAlterar)
                     .addComponent(btExluir)
                     .addComponent(btCadastrar))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btBuscarCPF)
-                    .addComponent(btBuscarNome))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,15 +181,15 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         if (txtNome.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo Nome!"));
+            JOptionPane.showMessageDialog(null, ("Por favor preencha o campo Nome!"));
             txtNome.requestFocusInWindow();
         } else {
             if (txtfNumero.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo Número!"));
+                JOptionPane.showMessageDialog(null, ("Por favor preencha o campo Número!"));
                 txtfNumero.requestFocusInWindow();
             } else {
                 if (txtfCPF.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo CPF!"));
+                    JOptionPane.showMessageDialog(null, ("Por favor preencha o campo CPF!"));
                     txtfCPF.requestFocusInWindow();
                 } else {
 
@@ -216,28 +198,29 @@ public class CadastroCliente extends javax.swing.JFrame {
                         txtNome.setText("");
                         txtNome.requestFocusInWindow();
                     } else {
-                    
-                    if (cdao.verificarSeJaExisteBDCPF(txtfCPF.getText())) {
-                        JOptionPane.showMessageDialog(null, "Esse CPF já foi resgistrado, por favor digite outro!");
-                        txtfCPF.setText("");
-                        txtfCPF.requestFocusInWindow();
-                    } else {
-                    
-                    Cliente p = new Cliente();
-                    
-                    p.setNome(txtNome.getText());
-                    p.setNumero(txtfNumero.getText());
-                    p.setCpf(txtfCPF.getText());
-                    p.setQuantidade(0);
 
-                    cdao.inserirCliente(p);
+                        if (cdao.verificarSeJaExisteBDCPF(txtfCPF.getText())) {
+                            JOptionPane.showMessageDialog(null, "Esse CPF já foi resgistrado, por favor digite outro!");
+                            txtfCPF.setText("");
+                            txtfCPF.requestFocusInWindow();
+                        } else {
 
-                    txtNome.setText("");
-                    txtfNumero.setText("");
-                    txtfCPF.setText("");
-                    txtNome.requestFocusInWindow();
-                    JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-                    }}
+                            Cliente p = new Cliente();
+
+                            p.setNome(txtNome.getText());
+                            p.setNumero(txtfNumero.getText());
+                            p.setCpf(txtfCPF.getText());
+                            p.setQuantidade(0);
+
+                            cdao.inserirCliente(p);
+
+                            txtNome.setText("");
+                            txtfNumero.setText("");
+                            txtfCPF.setText("");
+                            txtNome.requestFocusInWindow();
+                            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                        }
+                    }
                 }
             }
         }
@@ -248,7 +231,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo CPF!"));
             txtfCPF.requestFocusInWindow();
         } else {
-            
+
             Cliente p = new Cliente();
             cdao.excluirCliente(txtfCPF.getText());
             txtNome.setText("");
@@ -260,28 +243,11 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btExluirActionPerformed
 
     private void btListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListaActionPerformed
-        
+
         TodosClientes cli = new TodosClientes();
         cli.nomeUsuarioTela(f);
         cli.setVisible(true);
     }//GEN-LAST:event_btListaActionPerformed
-
-    private void btBuscarCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarCPFActionPerformed
-        mod.setPesquisa(txtfCPF.getText());
-        Cliente cli = cdao.buscarClienteCPF(mod);
-        txtNome.setText(cli.getNome());
-        txtfNumero.setText(cli.getNumero());
-        txtQtd.setText(""+cli.getQuantidade());
-    }//GEN-LAST:event_btBuscarCPFActionPerformed
-
-    private void btBuscarNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarNomeActionPerformed
-        mod.setPesquisa(txtNome.getText());
-        Cliente cli = cdao.buscarClienteNome(mod);
-        txtNome.setText(cli.getNome());
-        txtfCPF.setText(cli.getCpf());
-        txtfNumero.setText(cli.getNumero());
-        txtQtd.setText(""+cli.getQuantidade());
-    }//GEN-LAST:event_btBuscarNomeActionPerformed
 
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
         if (txtNome.getText().isEmpty()) {
@@ -296,9 +262,9 @@ public class CadastroCliente extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo CPF!"));
                     txtfCPF.requestFocusInWindow();
                 } else {
-                    
+
                     Cliente p = new Cliente();
-                    
+
                     p.setNumero(txtfNumero.getText());
                     p.setCpf(txtfCPF.getText());
 
@@ -309,12 +275,27 @@ public class CadastroCliente extends javax.swing.JFrame {
                     txtfCPF.setText("");
                     txtNome.requestFocusInWindow();
                     JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                    
+
                 }
             }
         }
     }//GEN-LAST:event_btAlterarActionPerformed
 
+    private void txtNomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomeMouseClicked
+        if (evt.getClickCount() >= 2) {
+            Consulta consulta = new Consulta(null, true, 2); // o 2 refere-se ao tipo de dados que quero que me informe, sera trabalhado nele na janela consulta
+            consulta.setVisible(true);
+            if (consulta.getSelecao() instanceof Cliente) {
+                Cliente cliente = (Cliente) consulta.getSelecao();
+                mod.setPesquisa((cliente != null) ? "" + cliente.getCpf() : null); // coloque o nome do cliente no jTextField
+                Cliente b = cdao.buscarClienteCPF(mod);
+                txtNome.setText(b.getNome());
+                txtfCPF.setText(b.getCpf());
+                txtfNumero.setText(b.getNumero());
+                txtQtd.setText("" + b.getQuantidade());
+            }
+        }
+    }//GEN-LAST:event_txtNomeMouseClicked
 
     public static void main(String args[]) {
 
@@ -327,8 +308,6 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAlterar;
-    private javax.swing.JButton btBuscarCPF;
-    private javax.swing.JButton btBuscarNome;
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btExluir;
     private javax.swing.JButton btLista;

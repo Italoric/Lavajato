@@ -11,20 +11,21 @@ public class CadastroFuncionario extends javax.swing.JFrame {
 
     Funcionario mod = new Funcionario();
     FuncionarioDAO fdao = new FuncionarioDAO();
-    
+
     public CadastroFuncionario() {
         initComponents();
         formatarCPF();
         formatarNumero();
         txtId.setDocument(new Sonumero());
-        
+
     }
-    
-    public void nomeUsuarioTela (Funcionario pes){
+
+    public void nomeUsuarioTela(Funcionario pes) {
         mod = fdao.buscarFuncionarioUsuario(pes);
 
     }
-    private void formatarCPF(){
+
+    private void formatarCPF() {
         try {
             MaskFormatter mask = new MaskFormatter("###########");
             mask.install(txtfCPF);
@@ -32,7 +33,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
         }
     }
-    private void formatarNumero(){
+
+    private void formatarNumero() {
         try {
             MaskFormatter mask = new MaskFormatter("(##)#####-####");
             mask.install(txtfNumero);
@@ -40,6 +42,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -240,56 +243,60 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo Usuário!"));
                     txtUsuario.requestFocusInWindow();
                 } else {
-                if ((txtConfSenha.getText().isEmpty())||(!txtConfSenha.getText().equals(txtSenha.getText()))) {
-                    JOptionPane.showMessageDialog(null, ("Por favaor verifique o campo Confirmar senha!"));
-                    txtConfSenha.requestFocusInWindow();
-                } else {
-                if (txtfNumero.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo Número!"));
-                    txtfNumero.requestFocusInWindow();
-                } else {                    
-                    if (fdao.verificarSeJaExisteBD(txtNome.getText())) {
-                        JOptionPane.showMessageDialog(null, "Esse Nome já foi resgistrado, por favor digite outro!");
-                        txtNome.setText("");
-                        txtNome.requestFocusInWindow();
+                    if ((txtConfSenha.getText().isEmpty()) || (!txtConfSenha.getText().equals(txtSenha.getText()))) {
+                        JOptionPane.showMessageDialog(null, ("Por favaor verifique o campo Confirmar senha!"));
+                        txtConfSenha.requestFocusInWindow();
                     } else {
-                    
-                    if (fdao.verificarSeJaExisteBDCPF(txtfCPF.getText())) {
-                        JOptionPane.showMessageDialog(null, "Esse CPF já foi resgistrado, por favor digite outro!");
-                        txtfCPF.setText("");
-                        txtfCPF.requestFocusInWindow();
-                    } else {
-                    if (fdao.verificarSeJaExisteBDId(Integer.parseInt(txtId.getText()))) {
-                        JOptionPane.showMessageDialog(null, "Esse Id já foi resgistrado, por favor digite outro!");
-                        txtId.setText("");
-                        txtId.requestFocusInWindow();
-                    } else {
-                    
-                    Funcionario p = new Funcionario();
-                    
-                    p.setId(Integer.parseInt(txtId.getText()));
-                    p.setNome(txtNome.getText());
-                    p.setCpf(txtfCPF.getText());
-                    p.setUsuario(txtUsuario.getText());
-                    p.setSenha(txtSenha.getText());
-                    p.setNumero(txtfNumero.getText());
-                    p.setTipoUsuario((String)jComboBox1.getSelectedItem());
+                        if (txtfNumero.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo Número!"));
+                            txtfNumero.requestFocusInWindow();
+                        } else {
+                            if (fdao.verificarSeJaExisteBD(txtNome.getText())) {
+                                JOptionPane.showMessageDialog(null, "Esse Nome já foi resgistrado, por favor digite outro!");
+                                txtNome.setText("");
+                                txtNome.requestFocusInWindow();
+                            } else {
 
-                    fdao.inserirFuncionario(p);
+                                if (fdao.verificarSeJaExisteBDCPF(txtfCPF.getText())) {
+                                    JOptionPane.showMessageDialog(null, "Esse CPF já foi resgistrado, por favor digite outro!");
+                                    txtfCPF.setText("");
+                                    txtfCPF.requestFocusInWindow();
+                                } else {
+                                    if (fdao.verificarSeJaExisteBDId(Integer.parseInt(txtId.getText()))) {
+                                        JOptionPane.showMessageDialog(null, "Esse Id já foi resgistrado, por favor digite outro!");
+                                        txtId.setText("");
+                                        txtId.requestFocusInWindow();
+                                    } else {
 
-                    txtNome.setText("");
-                    txtfNumero.setText("");
-                    txtConfSenha.setText("");
-                    txtSenha.setText("");
-                    txtfCPF.setText("");
-                    txtUsuario.setText("");
-                    txtId.setText("");
-                    jComboBox1.setSelectedItem(1);
-                    txtNome.requestFocusInWindow();
-                    }}}}}
+                                        Funcionario p = new Funcionario();
+
+                                        p.setId(Integer.parseInt(txtId.getText()));
+                                        p.setNome(txtNome.getText());
+                                        p.setCpf(txtfCPF.getText());
+                                        p.setUsuario(txtUsuario.getText());
+                                        p.setSenha(txtSenha.getText());
+                                        p.setNumero(txtfNumero.getText());
+                                        p.setTipoUsuario((String) jComboBox1.getSelectedItem());
+
+                                        fdao.inserirFuncionario(p);
+
+                                        txtNome.setText("");
+                                        txtfNumero.setText("");
+                                        txtConfSenha.setText("");
+                                        txtSenha.setText("");
+                                        txtfCPF.setText("");
+                                        txtUsuario.setText("");
+                                        txtId.setText("");
+                                        jComboBox1.setSelectedItem(1);
+                                        txtNome.requestFocusInWindow();
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        }                                           
+        }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void btBuscarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarFuncionarioActionPerformed
@@ -299,18 +306,18 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         txtNome.setText(f.getNome());
         txtfCPF.setText(f.getCpf());
         txtUsuario.setText(f.getUsuario());
-        txtId.setText(""+f.getId());
+        txtId.setText("" + f.getId());
         txtfNumero.setText(f.getNumero());
         jComboBox1.setSelectedItem(f.getTipoUsuario());
 
     }//GEN-LAST:event_btBuscarFuncionarioActionPerformed
 
     private void btExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExluirActionPerformed
-                if (txtfCPF.getText().isEmpty()) {
+        if (txtfCPF.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, ("Por favaor preencha o campo CPF!"));
             txtfCPF.requestFocusInWindow();
         } else {
-            FuncionarioDAO cdao = new FuncionarioDAO();   
+            FuncionarioDAO cdao = new FuncionarioDAO();
             Funcionario p = new Funcionario();
             cdao.excluirFuncionario(txtfCPF.getText());
             txtNome.setText("");

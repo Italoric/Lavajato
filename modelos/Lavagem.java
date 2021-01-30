@@ -1,10 +1,12 @@
 package modelos;
 
-public class Lavagem extends Agendamento{
+public class Lavagem extends Agendamento {
 
     protected String placa;
-    protected String desconto;
     protected String tipoPagamento;
+    protected String descricao;
+    protected String pertence;
+    protected String usuario;
 
     public String getPlaca() {
         return placa;
@@ -12,14 +14,6 @@ public class Lavagem extends Agendamento{
 
     public void setPlaca(String placa) {
         this.placa = placa;
-    }
-
-    public String getDesconto() {
-        return desconto;
-    }
-
-    public void setDesconto(String desconto) {
-        this.desconto = desconto;
     }
 
     public String getTipoPagamento() {
@@ -30,4 +24,27 @@ public class Lavagem extends Agendamento{
         this.tipoPagamento = tipoPagamento;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getPertence() {
+        return pertence;
+    }
+
+    public void setPertence(String pertence) {
+        this.pertence = pertence;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 }

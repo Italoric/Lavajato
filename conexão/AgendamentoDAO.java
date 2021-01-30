@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelos.Agendamento;
-import modelos.Cliente;
 
 public class AgendamentoDAO {
 
     private final String SQL_INSERE_AGENDAMENTO= "INSERT INTO \"PUBLIC\".\"AGENDAMENTO\"(\"ID\", \"CLIENTE\", \"NUMERO\", \"TIPOVEICULO\", \"DATAA\", \"HORA\", \"VALOR\", \"FUNCIONARIO\") VALUES (?,?,?,?,?,?,?,?);";
-    private final String SQL_INSERE_ELEITOR= "INSERT INTO \"PUBLIC\".\"ELEITORES\"(\"CRACHA\") VALUES (?);";
     private final String SQL_ALTERA_AGENDAMENTO= "UPDATE AGENDAMENTO SET CLIENTE=?, NUMERO=?, TIPOVEICULO=?, DATAA=?, HORA=?, VALOR=?, FUNCIONARIO=? WHERE ID=?;";
     private final String SQL_EXCLUI_AGENDAMENTO= "DELETE FROM AGENDAMENTO WHERE ID=?";
     private final String SQL_EXCLUITUDO_AGENDAMENTO= "DELETE FROM AGENDAMENTO";

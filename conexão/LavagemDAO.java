@@ -3,33 +3,41 @@ package conexão;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelos.Cliente;
+import modelos.Lavagem;
 
 public class LavagemDAO {
 
-    private final String SQL_INSERE_CLIENTE= "INSERT INTO \"PUBLIC\".\"CLIENTE\"(\"ID\", \"NOME\", \"NUMERO\", \"QUANTIDADE\") VALUES (?,?,?,?);";
-    private final String SQL_INSERE_ELEITOR= "INSERT INTO \"PUBLIC\".\"ELEITORES\"(\"CRACHA\") VALUES (?);";
-    private final String SQL_ALTERA_CANDIDATO= "UPDATE CANDIDATOS SET NOME=?, SETOR=?, CAMINHO=?  WHERE NUMERO=?;";
-    private final String SQL_EXCLUI_CANDIDATO= "DELETE FROM CANDIDATOS WHERE NUMERO=?";
-    private final String SQL_EXCLUITUDO_CANDIDATO= "DELETE FROM CANDIDATOS";
-    private final String SQL_EXCLUITUDO_ELEITOR= "DELETE FROM ELEITORES";
-    private final String SQL_SELECIONA_CANDIDATO= "SELECT * FROM CANDIDATOS";
-    private final String SQL_SELECIONAUM_CANDIDATO= "SELECT * FROM CANDIDATOS WHERE NUMERO=?;";
-    private final String SQL_SELECIONAUM_ELEITOR= "SELECT * FROM ELEITORES WHERE CRACHA=?;";
-    private final String SQL_VOTA_CANDIDATO= "UPDATE CANDIDATOS SET VOTO=?  WHERE NUMERO=?;";
+    private final String SQL_INSERE_LAVAGEM= "INSERT INTO \"PUBLIC\".\"LAVAGEM\"(\"ID\", \"CLIENTE\", \"PLACA\", \"TIPOVEICULO\", \"PERTECE\", \"DESCRICAO\", \"FUNCIONARIO\", \"TIPOPAGAMENTO\", \"VALOR\", \"DATAA\", \"USUARIO\") VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+    private final String SQL_ALTERA_LAVAGEM= "UPDATE CANDIDATOS SET NOME=?, SETOR=?, CAMINHO=?  WHERE NUMERO=?;";
+    private final String SQL_EXCLUI_LAVAGEM= "DELETE FROM CANDIDATOS WHERE NUMERO=?";
+    private final String SQL_EXCLUITUDO_LAVAGEM= "DELETE FROM CANDIDATOS";
+    private final String SQL_SELECIONA_LAVAGEM= "SELECT * FROM LAVAGEM";
+    private final String SQL_SELECIONAUM_LAVAGEM= "SELECT * FROM LAVAGEM WHERE DATAA LIKE'%?%'";
+    private final String SQL_VOTA_LAVAGEM= "UPDATE CANDIDATOS SET VOTO=?  WHERE NUMERO=?;";
 
     private PreparedStatement pst = null;
     
-    public boolean inserirCliente(Cliente p){
+    public boolean inserirLavagem(Lavagem p){
         boolean ret = false;
         Connection con = Conexao.conectar();
         try {
-            pst = con.prepareStatement(SQL_INSERE_CLIENTE);
-            pst.setString(1, p.getCpf());
-            pst.setString(2, p.getNome());
-            pst.setString(3, p.getNumero());
-            pst.setInt(4, p.getQuantidade());            
+            pst = con.prepareStatement(SQL_INSERE_LAVAGEM);
+            pst.setInt(1, p.getId());
+            pst.setString(2, p.getCliente());
+            pst.setString(3, p.getPlaca());
+            pst.setString(4, p.getTipoveiculo());
+            pst.setString(5, p.getPertence());
+            pst.setString(6, p.getDescricao());
+            pst.setString(7, p.getFuncionario());
+            pst.setString(8, p.getTipoPagamento());
+            pst.setDouble(9, p.getValor());
+            pst.setString(10, p.getData());
+            pst.setString(11, p.getUsuario());            
             ret = pst.execute();
             pst.close();
             Conexao.fecharcon();
@@ -37,45 +45,71 @@ public class LavagemDAO {
             JOptionPane.showMessageDialog(null,"Erro ao executar o Statment " + e.toString());
         }
         return ret;
-    }}
-//    public boolean inserirEleitor(Eleitor p){
-//        boolean ret = false;
-//        Connection con = conexao.conectar();
-//        try {
-//            pst = con.prepareStatement(SQL_INSERE_ELEITOR);
-//            pst.setInt(1, p.getCracha());            
-//            ret = pst.execute();
-//            pst.close();
-//            conexao.fecharcon();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null,"Erro ao executar o Statment " + e.toString());
-//        }
-//        return ret;
-//    }
-//    public ArrayList<Candidato> listar(){
-//        ArrayList<Candidato> listadeCandidatos = new ArrayList<Candidato>();
-//        Connection con = conexao.conectar();
-//        
-//        try {
-//            pst = con.prepareStatement(SQL_SELECIONA_CANDIDATO);
-//            ResultSet rs = pst.executeQuery();
-//            while (rs.next()) {
-//                Candidato p = new Candidato();
-//                p.setNumber(rs.getInt("NUMERO"));
-//                p.setVoto(rs.getInt("VOTO"));
-//                p.setName(rs.getString("NOME"));
-//                p.setSetor(rs.getString("SETOR"));
-//                p.setCaminho(rs.getString("CAMINHO"));
-//                listadeCandidatos.add(p);
-//            }
-//            rs.close();
-//            pst.close();
-//            conexao.fecharcon();
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null,"Erro ao lista candidatos! " + e.toString());
-//        }
-//        return listadeCandidatos;
-//        }
+    }
+
+    public ArrayList<Lavagem> listar(){
+        ArrayList<Lavagem> listadeLavagem = new ArrayList<Lavagem>();
+        Connection con = Conexao.conectar();
+        
+        try {
+            pst = con.prepareStatement(SQL_SELECIONA_LAVAGEM);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Lavagem p = new Lavagem();
+                p.setId(rs.getInt("ID"));
+                p.setCliente(rs.getString("CLIENTE"));
+                p.setPertence(rs.getString("PERTECE"));
+                p.setPlaca(rs.getString("PLACA"));
+                p.setTipoveiculo(rs.getString("TIPOVEICULO"));
+                p.setDescricao(rs.getString("DESCRICAO"));
+                p.setFuncionario(rs.getString("FUNCIONARIO"));
+                p.setTipoPagamento(rs.getString("TIPOPAGAMENTO"));
+                p.setValor(rs.getInt("VALOR"));
+                p.setData(rs.getString("DATAA"));
+                p.setUsuario(rs.getString("USUARIO"));
+                
+                listadeLavagem.add(p);
+            }
+            rs.close();
+            pst.close();
+            Conexao.fecharcon();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Erro ao lista Relatórios! " + e.toString());
+        }
+        return listadeLavagem;
+        }
+
+    public ArrayList<Lavagem> listarPorData(String s){
+        ArrayList<Lavagem> listadeLavagem = new ArrayList<Lavagem>();
+        Connection con = Conexao.conectar();
+        
+        try {
+            pst = con.prepareStatement("SELECT * FROM LAVAGEM WHERE DATAA LIKE'%"+s+"%'");
+//            pst.setString(1, s);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Lavagem p = new Lavagem();
+                p.setId(rs.getInt("ID"));
+                p.setCliente(rs.getString("CLIENTE"));
+                p.setPertence(rs.getString("PERTECE"));
+                p.setPlaca(rs.getString("PLACA"));
+                p.setTipoveiculo(rs.getString("TIPOVEICULO"));
+                p.setDescricao(rs.getString("DESCRICAO"));
+                p.setFuncionario(rs.getString("FUNCIONARIO"));
+                p.setTipoPagamento(rs.getString("TIPOPAGAMENTO"));
+                p.setValor(rs.getDouble("VALOR"));
+                p.setData(rs.getString("DATAA"));
+                p.setUsuario(rs.getString("USUARIO"));
+                listadeLavagem.add(p);
+            }
+            rs.close();
+            pst.close();
+            Conexao.fecharcon();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Erro ao lista Relatórios por data! " + e.toString());
+        }
+        return listadeLavagem;
+        }}
 //    public boolean alterarCandidato(Candidato p){
 //        boolean ret = false;
 //        Connection con = conexao.conectar();
@@ -191,31 +225,7 @@ public class LavagemDAO {
 //    }
 //
 //    
-//    public ArrayList<Candidato> listarum(int desc){
-//        ArrayList<Candidato> listadoCandidato = new ArrayList<Candidato>();
-//        Connection con = conexao.conectar();
-//        
-//        try {
-//            pst = con.prepareStatement(SQL_SELECIONAUM_CANDIDATO);
-//            pst.setString(1, desc+"");
-//            ResultSet rs = pst.executeQuery();
-//            while (rs.next()) {
-//                Candidato p = new Candidato();
-//                p.setNumber(rs.getInt("NUMERO"));
-//                p.setName(rs.getString("NOME"));
-//                p.setSetor(rs.getString("SETOR"));
-//                p.setCaminho(rs.getString("CAMINHO"));
-//                p.setVoto(rs.getInt("VOTO"));
-//                listadoCandidato.add(p);
-//            }
-//            rs.close();
-//            pst.close();
-//            conexao.fecharcon();
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null,"Erro ao lista candidatos! " + e.toString());
-//        }
-//        return listadoCandidato;
-//        }
+
 //
 //}
 //}

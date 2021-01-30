@@ -35,7 +35,7 @@ public class Agendamentos extends javax.swing.JFrame {
     public void nomeUsuarioTela(Funcionario pes) {
         f = fd.buscarFuncionarioUsuario(pes);
         txtFuncionario.setText(f.getUsuario());
-        if ((f.getTipoUsuario().equals("Administrador"))||(f.getTipoUsuario().equals("Super"))) {
+        if ((f.getTipoUsuario().equals("Administrador")) || (f.getTipoUsuario().equals("Super"))) {
             btLimpar.setEnabled(true);
         }
     }
@@ -75,6 +75,33 @@ public class Agendamentos extends javax.swing.JFrame {
         return ret;
     }
 
+    private void formatarHora() {
+        try {
+            MaskFormatter mask = new MaskFormatter("##:##");
+            mask.install(txtfHora);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
+        }
+    }
+
+    private void formatarNumero() {
+        try {
+            MaskFormatter mask = new MaskFormatter("(##)#####-####");
+            mask.install(txtfNumero);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
+        }
+    }
+
+    private void formatarValor() {
+        try {
+            MaskFormatter mask = new MaskFormatter("##.##");
+            mask.install(txtfValor);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -82,10 +109,15 @@ public class Agendamentos extends javax.swing.JFrame {
         btAdicionar = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btApagar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
+        txtfData = new com.toedter.calendar.JDateChooser();
+        cbVeículo = new javax.swing.JComboBox();
         txtCliente = new javax.swing.JTextField();
         txtFuncionario = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
         txtfHora = new javax.swing.JFormattedTextField();
         txtfNumero = new javax.swing.JFormattedTextField();
+        txtfValor = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,17 +125,9 @@ public class Agendamentos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtfValor = new javax.swing.JFormattedTextField();
-        cbVeículo = new javax.swing.JComboBox();
-        txtPesquisar = new javax.swing.JTextField();
-        btPesquisa = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        btTransferir = new javax.swing.JButton();
-        txtfData = new com.toedter.calendar.JDateChooser();
-        txtId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAgendamento = new javax.swing.JTable();
-        btLimpar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agendamentos");
@@ -129,7 +153,24 @@ public class Agendamentos extends javax.swing.JFrame {
             }
         });
 
+        btLimpar.setText("Limpar Lista");
+        btLimpar.setEnabled(false);
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        txtfData.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+
+        cbVeículo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Carro", "Moto" }));
+
         txtCliente.setEnabled(false);
+        txtCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtClienteMouseClicked(evt);
+            }
+        });
 
         txtFuncionario.setEnabled(false);
 
@@ -150,27 +191,6 @@ public class Agendamentos extends javax.swing.JFrame {
 
         jLabel7.setText("Funcionário:");
 
-        cbVeículo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Carro", "Moto" }));
-
-        btPesquisa.setText("Pesquisar");
-        btPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisaActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("Pesquisar Cliente:");
-
-        btTransferir.setText("Transfere");
-        btTransferir.setEnabled(false);
-        btTransferir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btTransferirActionPerformed(evt);
-            }
-        });
-
-        txtfData.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-
         jtAgendamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -189,13 +209,7 @@ public class Agendamentos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtAgendamento);
 
-        btLimpar.setText("Limpar Lista");
-        btLimpar.setEnabled(false);
-        btLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLimparActionPerformed(evt);
-            }
-        });
+        jLabel8.setText("Digite um número para identificação desse agendamento:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -205,61 +219,50 @@ public class Agendamentos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtfNumero))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(80, 80, 80))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbVeículo, 0, 115, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtfData, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addComponent(jLabel2)
+                                .addGap(0, 76, Short.MAX_VALUE))
+                            .addComponent(txtfNumero))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(126, 126, 126)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(btLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel3)
+                                .addGap(80, 80, 80))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbVeículo, 0, 115, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtfData, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(txtFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))))
+                            .addComponent(jLabel6)
+                            .addComponent(txtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(txtFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(102, 102, 102)
                 .addComponent(btAdicionar)
-                .addGap(133, 133, 133)
+                .addGap(220, 220, 220)
                 .addComponent(btEditar)
-                .addGap(123, 123, 123)
-                .addComponent(btTransferir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btApagar)
                 .addGap(112, 112, 112))
@@ -267,6 +270,10 @@ public class Agendamentos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,20 +297,17 @@ public class Agendamentos extends javax.swing.JFrame {
                         .addComponent(txtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbVeículo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtfData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btPesquisa)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btLimpar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAdicionar)
                     .addComponent(btEditar)
-                    .addComponent(btApagar)
-                    .addComponent(btTransferir))
+                    .addComponent(btApagar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -312,14 +316,6 @@ public class Agendamentos extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaActionPerformed
-        c.setPesquisa(txtPesquisar.getText());
-        c = cd.buscarClienteNome(c);
-        txtCliente.setText(c.getNome());
-        txtfNumero.setText(c.getNumero());
-        txtPesquisar.setText("");
-    }//GEN-LAST:event_btPesquisaActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
         Date data = new Date();
@@ -422,8 +418,6 @@ public class Agendamentos extends javax.swing.JFrame {
                                 cbVeículo.setSelectedItem("Selecionar");
                                 txtId.setEnabled(true);
                                 btAdicionar.setEnabled(true);
-                                btPesquisa.setEnabled(true);
-                                btTransferir.setEnabled(false);
                             }
                         }
                     }
@@ -443,8 +437,6 @@ public class Agendamentos extends javax.swing.JFrame {
             txtfValor.setText(jtAgendamento.getValueAt(jtAgendamento.getSelectedRow(), 6).toString());
             txtId.setEnabled(false);
             btAdicionar.setEnabled(false);
-            btPesquisa.setEnabled(false);
-            btTransferir.setEnabled(true);
         }
     }//GEN-LAST:event_jtAgendamentoKeyReleased
 
@@ -469,56 +461,29 @@ public class Agendamentos extends javax.swing.JFrame {
                 cbVeículo.setSelectedItem("Selecionar");
                 txtId.setEnabled(true);
                 btAdicionar.setEnabled(true);
-                btPesquisa.setEnabled(true);
-                btTransferir.setEnabled(false);
             }
         }
 
     }//GEN-LAST:event_btApagarActionPerformed
-
-    private void btTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTransferirActionPerformed
-        Atendimento at = new Atendimento();
-        f.setPesquisa(txtFuncionario.getText());
-        ag.setPesquisa((txtId.getText()));
-        at.nomeUsuarioTela(f);
-        at.transfereAge(ag);
-        at.setVisible(true);        
-        ag.setId(Integer.parseInt(txtId.getText()));
-        agd.excluirAgendamento(ag);
-        this.dispose();
-    }//GEN-LAST:event_btTransferirActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         agd.excluirTodosAgendamento(ag);
         readTable();
     }//GEN-LAST:event_btLimparActionPerformed
 
-    private void formatarHora() {
-        try {
-            MaskFormatter mask = new MaskFormatter("##:##");
-            mask.install(txtfHora);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
+    private void txtClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtClienteMouseClicked
+        if (evt.getClickCount() >= 2) {
+            Consulta consulta = new Consulta(null, true, 2); // o 2 refere-se ao tipo de dados que quero que me informe, sera trabalhado nele na janela consulta
+            consulta.setVisible(true);
+            if (consulta.getSelecao() instanceof Cliente) {
+                Cliente cliente = (Cliente) consulta.getSelecao();
+                c.setPesquisa((cliente != null) ? "" + cliente.getCpf() : null); // coloque o nome do cliente no jTextField
+                Cliente b = cd.buscarClienteCPF(c);
+                txtCliente.setText(b.getNome());
+                txtfNumero.setText(b.getNumero());
+            }
         }
-    }
-
-    private void formatarNumero() {
-        try {
-            MaskFormatter mask = new MaskFormatter("(##)#####-####");
-            mask.install(txtfNumero);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
-        }
-    }
-
-    private void formatarValor() {
-        try {
-            MaskFormatter mask = new MaskFormatter("##.##");
-            mask.install(txtfValor);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao formatar campo de texto!", "Error", JOptionPane.ERROR);
-        }
-    }
+    }//GEN-LAST:event_txtClienteMouseClicked
 
     public static void main(String args[]) {
 
@@ -534,8 +499,6 @@ public class Agendamentos extends javax.swing.JFrame {
     private javax.swing.JButton btApagar;
     private javax.swing.JButton btEditar;
     private javax.swing.JButton btLimpar;
-    private javax.swing.JButton btPesquisa;
-    private javax.swing.JButton btTransferir;
     private javax.swing.JComboBox cbVeículo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -550,7 +513,6 @@ public class Agendamentos extends javax.swing.JFrame {
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtFuncionario;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtPesquisar;
     private com.toedter.calendar.JDateChooser txtfData;
     private javax.swing.JFormattedTextField txtfHora;
     private javax.swing.JFormattedTextField txtfNumero;
